@@ -20,7 +20,7 @@ function SignUp() {
         <MDBRow className='g-0'>
 
           <MDBCol md='6'>
-            <MDBCardImage src='/ezgif.com-gif-maker.jpg' alt="login form" className='rounded-start w-100'/>
+            <MDBCardImage src='\imgs\ezgif.com-gif-maker.jpg' alt="login form" className='rounded-start w-100'/>
           </MDBCol>
 
           <MDBCol md='6'>
@@ -41,7 +41,9 @@ function SignUp() {
               <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <a href="#!" style={{color: '#393f81'}}>Sign in here</a></p>
 
               <div className='d-flex flex-row justify-content-start'>
-                <a href="#!" className="small text-muted me-1">Terms of use.</a>
+                <a href="#!" className="small text-muted me-1">Terms of use</a>
+              </div>
+              <div className='d-flex flex-row justify-content-start'>
                 <a href="#!" className="small text-muted">Privacy policy</a>
               </div>
 

@@ -1,5 +1,5 @@
 const CURRENCY_FORMATTER = new Intl.NumberFormat(undefined, {
-    currency: "HRK",
+    currency: "EUR",
     style: "currency",
   })
   

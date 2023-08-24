@@ -5,25 +5,25 @@ import Home from './Pages/Home';
 import Layout from './Pages/Layout';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import Cart from './Pages/Cart';
 import { Store } from './Pages/Store';
 
 
 
 function App() {
   return (
+    <ShoppingCartProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/SignIn" index element={<SignIn />} />
           <Route path="/SignUp" index element={<SignUp />} />
-          <Route path="/Cart" index element={<Cart />} />
           <Route path="/Store" index element={<Store />} />
 
         </Route>
       </Routes>
     </BrowserRouter>
+    </ShoppingCartProvider>
   );
 }
 
