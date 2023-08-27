@@ -12,19 +12,18 @@ import { ShoppingCartProvider } from './Components/Context/ShoppingCartContext';
 
 function App() {
   return (
-    <ShoppingCartProvider>
     <BrowserRouter>
+    <ShoppingCartProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/SignIn" index element={<SignIn />} />
           <Route path="/SignUp" index element={<SignUp />} />
           <Route path="/Store" index element={<Store />} />
-
         </Route>
       </Routes>
+      </ShoppingCartProvider>
     </BrowserRouter>
-    </ShoppingCartProvider>
   );
 }
 

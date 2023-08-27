@@ -34,7 +34,6 @@ export default function SlideShow() {
     </div>
   </div>
 </Slide>
-
       </div>
     )
 }
