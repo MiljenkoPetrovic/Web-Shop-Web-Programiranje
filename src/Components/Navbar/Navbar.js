@@ -1,14 +1,14 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import {Link} from "react-router-dom";
 import { Button } from 'react-bootstrap';
+import { useShoppingCart } from '../Context/ShoppingCartContext';
 
 
 
 
 export default function Navigacija() {
+  const {openCart, cartQuantity} = useShoppingCart()
     return(
     <Navbar bg="light" expand="lg">
       <Container>
@@ -30,8 +30,9 @@ export default function Navigacija() {
             <Nav className="ml-auto">
             <Nav.Link href="/SignIn">Sign in</Nav.Link>
             <Nav.Link href="/SignUp">Sign up</Nav.Link>
+            {cartQuantity > 0 && (
             <Button
-            /*onClick={openCart}*/
+            onClick={openCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
             variant="outline-primary"
             className="rounded-circle"
@@ -56,9 +57,10 @@ export default function Navigacija() {
                 transform: "translate(25%, 25%)",
               }}
             >
-              
+              {cartQuantity}
             </div>
           </Button>
+            )}
             </Nav>
         </Navbar.Collapse>
       </Container>

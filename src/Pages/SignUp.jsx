@@ -38,7 +38,7 @@ function SignUp() {
                 <MDBInput wrapperClass='mb-4' label='Confirm password' id='formControlLg' type='password' size="lg"/>
 
               <MDBBtn className="mb-4 px-5" color='dark' size='lg'>Sign in</MDBBtn>
-              <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <a href="#!" style={{color: '#393f81'}}>Sign in here</a></p>
+              <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Already have an account? <a href="/SignIn" style={{color: '#393f81'}}>Sign in here</a></p>
 
               <div className='d-flex flex-row justify-content-start'>
                 <a href="#!" className="small text-muted me-1">Terms of use</a>

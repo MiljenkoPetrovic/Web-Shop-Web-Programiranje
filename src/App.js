@@ -6,6 +6,7 @@ import Layout from './Pages/Layout';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import { Store } from './Pages/Store';
+import { ShoppingCartProvider } from './Components/Context/ShoppingCartContext';
 
 
 
