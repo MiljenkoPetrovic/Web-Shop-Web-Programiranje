@@ -1,20 +1,33 @@
-import Container from 'react-bootstrap/Container';
-import React from "react";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { StoreItem } from "../StorePage/StoreItem.tsx"
-import storeItems from "../data/items.json"
-
+import React, { useEffect, useState } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import { db } from '../../firebaseConfig';
+import { StoreItem } from '../StorePage/StoreItem'; 
 
 export default function BestItems() {
-    return (     
+  const [topProducts, setTopProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchTopProducts = async () => {
+      try {
+        const productsRef = db.collection('Products');
+        const querySnapshot = await productsRef.orderBy('sold', 'desc').limit(2).get();
+        const topProductsData = querySnapshot.docs.map((doc) => doc.data());
+        setTopProducts(topProductsData);
+      } catch (error) {
+        console.error('Error fetching top products:', error);
+      }
+    };
+
+    fetchTopProducts();
+  }, []);
+
+  return (
     <Row md={2} xs={1} lg={2} className="g-3">
-        {storeItems.map(item => (
+      {topProducts.map((item) => (
         <Col key={item.id}>
-            <StoreItem {...item} />
-            </Col>
-        ))}
+          <StoreItem {...item} />
+        </Col>
+      ))}
     </Row>
-                
-    )
+  );
 }

@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card } from 'react-bootstrap';
 import { formatCurrency } from "../utilities/formatCurrency";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 
 type StoreItemProps = {
-  id: number;
+  id: string; // Keep the 'id' field in the prop type
   name: string;
   price: number;
   imgUrl: string;

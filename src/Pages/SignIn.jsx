@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { MDBBtn, MDBContainer, MDBCard, MDBCardBody, MDBCardImage, MDBRow, MDBCol, MDBIcon, MDBInput } from 'mdb-react-ui-kit';
-import { useAuth } from '../Components/Context/AuthContext'; 
-import { signInWithFirebase } from '../Components/Authorization/Auth'; 
+import { useAuth } from '../Components/Context/AuthContext';
+import { signInWithFirebase } from '../Components/Authorization/Auth'; // Import signInWithFirebase from your Auth.js file
 import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
-  const { currentUser } = useAuth(); // Access the currentUser from the authentication context
+  const { currentUser } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize the navigate function from React Router
+  const navigate = useNavigate();
 
-  // Function to handle form submission and sign in
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
-      // Use the renamed signInWithFirebase function from your Auth.js file to sign in with email and password
       await signInWithFirebase(email, password);
 
       // Sign in was successful, currentUser will be updated automatically through your AuthProvider

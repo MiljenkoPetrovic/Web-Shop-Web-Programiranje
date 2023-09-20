@@ -1,11 +1,12 @@
-// ShoppingCart.tsx
-
+import React, { useEffect, useState } from "react";
 import { Button, Offcanvas, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
-import { CartItem } from "../Cart/CartItem";
 import { formatCurrency } from "../utilities/formatCurrency";
-import storeItems from "../data/items.json";
+import { db } from "../../firebaseConfig"; // Assuming you have Firebase initialized
 import './ShoppingCart.css';
+import { CartItem } from "../Cart/CartItem"; // Import CartItem and CartItemProps
+
+import { getFirestore, collection, query, getDocs } from 'firebase/firestore'; // Add these imports for Firestore v9
 
 type ShoppingCartProps = {
     isOpen: boolean;
@@ -13,6 +14,31 @@ type ShoppingCartProps = {
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     const { closeCart, cartItems } = useShoppingCart();
+    const [storeItems, setStoreItems] = useState<any[]>([]); // Use 'any' for Firestore data
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStoreItems = async () => {
+            try {
+                const firestore = getFirestore(); // Get a reference to Firestore
+                const q = query(collection(firestore, 'Products')); // Change 'Products' to your Firestore collection name
+                const querySnapshot = await getDocs(q);
+
+                const itemDocs = querySnapshot.docs.map((doc) => doc.data());
+                setStoreItems(itemDocs);
+                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching store items:", error);
+                setIsLoading(false);
+            }
+        };
+
+        if (cartItems.length > 0) {
+            fetchStoreItems();
+        } else {
+            setIsLoading(false);
+        }
+    }, [cartItems]);
 
     const handleCheckout = () => {
         // Implement your checkout logic here
@@ -29,15 +55,32 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             </Offcanvas.Header>
             <Offcanvas.Body>
                 <Stack gap={3}>
-                    {cartItems.map((item) => (
-                        <CartItem key={item.id} {...item} />
-                    ))}
+                    {isLoading ? (
+                        <div>Loading...</div> // You can replace this with a loading indicator
+                    ) : (
+                        cartItems.map((cartItem, index) => {
+                            const storeItem = storeItems[index];
+                            if (!storeItem) {
+                                return null; // Handle item not found
+                            }
+                            return (
+                                <CartItem
+                                    key={cartItem.id}
+                                    id={cartItem.id}
+                                    name={storeItem.name || ''}
+                                    price={storeItem.price || 0}
+                                    imgUrl={storeItem.imgUrl || ''}
+                                    quantity={cartItem.quantity}
+                                />
+                            );
+                        })
+                    )}
                     <div className="ms-auto fw-bold fs-5">
                         Total{" "}
                         {formatCurrency(
-                            cartItems.reduce((total, cartItem) => {
-                                const item = storeItems.find((i) => i.id === cartItem.id);
-                                return total + (item?.price || 0) * cartItem.quantity;
+                            cartItems.reduce((total, cartItem, index) => {
+                                const storeItem = storeItems[index];
+                                return total + (storeItem?.price || 0) * cartItem.quantity;
                             }, 0)
                         )}
                     </div>

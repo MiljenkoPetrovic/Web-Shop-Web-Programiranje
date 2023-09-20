@@ -5,15 +5,14 @@ import { signUp } from '../Components/Authorization/Auth';
 import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
-  const { currentUser } = useAuth(); // Access the currentUser from the authentication context
+  const { currentUser } = useAuth();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize the navigate function from React Router
+  const navigate = useNavigate();
 
-  // Function to handle form submission and user registration
   const handleSignUp = async (e) => {
     e.preventDefault();
 
@@ -23,13 +22,9 @@ function SignUp() {
     }
 
     try {
-      // Use the signUp function from your Auth.js file to create a new user
       await signUp(email, password);
-
-      // Registration was successful, currentUser will be updated automatically through your AuthProvider
-      navigate('/'); // Redirect to the homepage
+      navigate('/'); // Redirect to the homepage after successful registration
     } catch (error) {
-      // Handle registration errors
       setError(error.message);
     }
   };
