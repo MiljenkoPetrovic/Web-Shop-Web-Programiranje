@@ -2,85 +2,82 @@
 
 /* Style for the cart container */
 .shopping-cart-container {
-    width: 500px; /* Adjust the width as needed */
-    background-color: #fff;
-    border-left: 1px solid #ccc; /* Add a border to separate the cart from the content */
-    position: fixed;
-    top: 0;
-    right: -300px; /* Start off-canvas to the right */
-    height: 100%;
-    transition: right 0.3s ease-in-out;
-  }
-  
-  /* Style for the cart header */
-  .cart-header {
-    padding: 10px;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative; /* Add position: relative; to the cart header */
-}
-  
-  /* Style for the cart title */
-  .cart-title {
-    font-size: 1.2rem;
-  }
-  
-  /* Style for the close button */
-  .offcanvas-close-button {
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: #333;
-    position: absolute;
-    top: 10px; /* Move it to the top */
-    right: 10px; /* Move it to the right */
+  width: 100%; /* Make the cart container full-width on all screens */
+  max-width: 400px; /* Limit the maximum width for larger screens */
+  background-color: #fff;
+  border-left: 1px solid #ccc;
+  position: fixed;
+  top: 0;
+  right: -100%; /* Start off-canvas to the right */
+  height: 100%;
+  transition: right 0.3s ease-in-out;
 }
 
-.offcanvas-close-button:hover {
-    color: #ff0000; /* Change color on hover */
+/* Style for the cart header */
+.cart-header {
+  padding: 10px;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-  
-  /* Style for the cart body (items and total) */
-  .cart-body {
-    padding: 10px;
-    overflow-y: auto; /* Enable vertical scrolling for cart items if needed */
-  }
-  
-  /* Style for individual cart items */
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  /* Style for the item image */
-  .cart-item img {
-    max-width: 50px; /* Adjust the max-width of the item images */
-    max-height: 50px; /* Adjust the max-height of the item images */
-    object-fit: cover;
-  }
-  
-  /* Style for the item details (name, quantity, price) */
-  .item-details {
-    flex-grow: 1;
-    margin-left: 10px;
-  }
-  
-  /* Style for the total amount */
-  .total-amount {
-    font-weight: bold;
-    margin-top: 10px;
-    text-align: right;
-  }
-  
-  /* Show the cart when it's open */
-  .shopping-cart-container.open {
-    right: 0;
-  }
-  
+
+/* Style for the cart title */
+.cart-title {
+  font-size: 1.2rem;
+}
+
+/* Style for the close button */
+.close-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  margin-right: 10px; /* Add margin for spacing */
+}
+
+.close-button:hover {
+  color: #ff0000;
+}
+
+/* Style for the cart body (items and total) */
+.cart-body {
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* Style for individual cart items */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Style for the item image */
+.cart-item img {
+  max-width: 50px;
+  max-height: 50px;
+  object-fit: cover;
+}
+
+/* Style for the item details (name, quantity, price) */
+.item-details {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+/* Style for the total amount */
+.total-amount {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* Show the cart when it's open */
+.shopping-cart-container.open {
+  right: 0;
+}
