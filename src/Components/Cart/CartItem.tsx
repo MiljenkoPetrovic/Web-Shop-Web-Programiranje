@@ -4,7 +4,7 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
 import { db } from '../../firebaseConfig';
 
-import { getFirestore, doc, getDoc } from 'firebase/firestore'; // Import Firestore functions for v9
+import { getFirestore, doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
 
 type CartItemProps = {
   id: string;
@@ -31,10 +31,10 @@ export function CartItem({
   removeButtonClassName,
 }: CartItemProps) {
   const { removeFromCart, increaseCartQuantity, decreaseCartQuantity } = useShoppingCart();
-  const [item, setItem] = useState<any | null>(null); // Use 'any' for Firestore data
+  const [item, setItem] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const imageSize = "75px"; // Image size
+  const imageSize = "75px";
 
   const handleRemoveClick = () => {
     removeFromCart(id);
@@ -51,14 +51,18 @@ export function CartItem({
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const firestore = getFirestore(); // Get a reference to Firestore
-        const itemDocRef = doc(firestore, "Products", id); // Change 'Products' to your Firestore collection name
-        const itemDocSnapshot = await getDoc(itemDocRef);
-
-        if (itemDocSnapshot.exists()) {
-          setItem(itemDocSnapshot.data());
+        const firestore = getFirestore();
+        const q = query(collection(firestore, "Products"), where("id", "==", id));
+        const querySnapshot = await getDocs(q);
+    
+        if (!querySnapshot.empty) {
+          // If there are matching documents, there should be only one.
+          const itemData = querySnapshot.docs[0].data();
+          console.log("Item data:", itemData);
+          setItem(itemData);
         } else {
           // Handle item not found
+          console.warn(`Item not found for cart item with ID: ${id}`);
           setItem(null);
         }
         setIsLoading(false);
@@ -67,16 +71,16 @@ export function CartItem({
         setIsLoading(false);
       }
     };
-
+    
     fetchItem();
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // You can replace this with a loading indicator
+    return <div>Loading...</div>;
   }
 
   if (!item) {
-    return <div>Item not found</div>; // Handle item not found
+    return <div>Item not found</div>;
   }
 
   return (

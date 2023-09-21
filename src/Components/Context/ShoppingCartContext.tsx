@@ -14,10 +14,11 @@ type CartItem = {
 type ShoppingCartContext = {
   openCart: () => void;
   closeCart: () => void;
-  getItemQuantity: (id: string) => number; // Change the 'id' type to string
-  increaseCartQuantity: (id: string) => void; // Change the 'id' type to string
-  decreaseCartQuantity: (id: string) => void; // Change the 'id' type to string
-  removeFromCart: (id: string) => void; // Change the 'id' type to string
+  getItemQuantity: (id: string) => number;
+  increaseCartQuantity: (id: string) => void; 
+  decreaseCartQuantity: (id: string) => void; 
+  removeFromCart: (id: string) => void;
+  addToCart: (id: string) => void; 
   cartQuantity: number;
   cartItems: CartItem[];
 };
@@ -81,6 +82,14 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     });
   }
 
+  // Define the addToCart function
+  function addToCart(id: string) {
+    increaseCartQuantity(id);
+  }
+
+  // Log the cartItems array to the console for debugging
+  console.log("Cart Items:", cartItems);
+
   return (
     <ShoppingCartContext.Provider
       value={{
@@ -90,6 +99,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         removeFromCart,
         openCart,
         closeCart,
+        addToCart,
         cartItems,
         cartQuantity,
       }}
@@ -99,3 +109,4 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     </ShoppingCartContext.Provider>
   );
 }
+

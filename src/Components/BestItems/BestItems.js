@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { db } from '../../firebaseConfig';
-import { StoreItem } from '../StorePage/StoreItem'; 
+import { StoreItem } from '../StorePage/StoreItem';
+import { getFirestore, collection, query, orderBy, limit, getDocs } from 'firebase/firestore'; // Import Firestore functions
 
 export default function BestItems() {
   const [topProducts, setTopProducts] = useState([]);
@@ -9,8 +9,10 @@ export default function BestItems() {
   useEffect(() => {
     const fetchTopProducts = async () => {
       try {
-        const productsRef = db.collection('Products');
-        const querySnapshot = await productsRef.orderBy('sold', 'desc').limit(2).get();
+        const firestore = getFirestore(); // Get a reference to Firestore
+        const q = query(collection(firestore, 'Products'), orderBy('sold', 'desc'), limit(2)); // Change 'Products' to your Firestore collection name
+        const querySnapshot = await getDocs(q);
+
         const topProductsData = querySnapshot.docs.map((doc) => doc.data());
         setTopProducts(topProductsData);
       } catch (error) {

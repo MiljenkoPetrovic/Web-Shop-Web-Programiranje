@@ -1,11 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { auth, db } from './firebaseConfig';
 import React, { useEffect } from 'react';
 import Home from './Pages/Home';
 import Layout from './Pages/Layout';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
-import { Store } from './Pages/Store';
+import  Store from './Pages/Store';
 import { ShoppingCartProvider } from './Components/Context/ShoppingCartContext';
 import { AuthProvider } from './Components/Context/AuthContext';
 

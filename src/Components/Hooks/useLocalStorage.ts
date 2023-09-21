@@ -11,7 +11,7 @@ export function useLocalStorage<T>(key: string, initialValue: T | (() => T)) {
       return initialValue
     }
   })
-
+  
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(value))
   }, [key, value])
