@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
-import { db } from '../../firebaseConfig';
-
 import { getFirestore, doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
 
 type CartItemProps = {

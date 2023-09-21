@@ -7,7 +7,7 @@ type ShoppingCartProviderProps = {
 };
 
 type CartItem = {
-  id: string; // Change the 'id' type to string
+  id: string;
   quantity: number;
 };
 
@@ -15,10 +15,11 @@ type ShoppingCartContext = {
   openCart: () => void;
   closeCart: () => void;
   getItemQuantity: (id: string) => number;
-  increaseCartQuantity: (id: string) => void; 
-  decreaseCartQuantity: (id: string) => void; 
+  increaseCartQuantity: (id: string) => void;
+  decreaseCartQuantity: (id: string) => void;
   removeFromCart: (id: string) => void;
-  addToCart: (id: string) => void; 
+  addToCart: (id: string) => void;
+  clearCart: () => void; 
   cartQuantity: number;
   cartItems: CartItem[];
 };
@@ -87,8 +88,10 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     increaseCartQuantity(id);
   }
 
-  // Log the cartItems array to the console for debugging
-  console.log("Cart Items:", cartItems);
+  // Define the clearCart function
+  function clearCart() {
+    setCartItems([]);
+  }
 
   return (
     <ShoppingCartContext.Provider
@@ -100,6 +103,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         openCart,
         closeCart,
         addToCart,
+        clearCart,
         cartItems,
         cartQuantity,
       }}
@@ -109,4 +113,3 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     </ShoppingCartContext.Provider>
   );
 }
-

@@ -1,14 +1,8 @@
-/* Store.css */
-.store-card {
-    
-  }
-  
   .store-card-image {
     width: 300; /* Set your desired width */
     height: 150px; /* Set your desired height */
     object-fit: cover; /* Preserve aspect ratio and cover the entire space */
     
   }
-  
-  /* Add any additional styling for card content as needed */
+
   

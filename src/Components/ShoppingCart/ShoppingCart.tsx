@@ -4,15 +4,16 @@ import { useShoppingCart } from "../Context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
 import './ShoppingCart.css';
 import { CartItem } from "../Cart/CartItem";
+import { FirebaseError } from "firebase/app";
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, increment } from 'firebase/firestore';
 
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore'; 
 
 type ShoppingCartProps = {
     isOpen: boolean;
 };
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
-  const { closeCart, cartItems } = useShoppingCart();
+  const { closeCart, cartItems, decreaseCartQuantity, clearCart } = useShoppingCart();
   const [storeItems, setStoreItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,9 +64,58 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     }
   }, [cartItems]);
 
-  const handleCheckout = () => {
-    // Implement your checkout logic here
+  const handleCheckout = async () => {
+    try {
+      const firestore = getFirestore();
+  
+      // Initialize an array to hold all the promises for updates
+      const updatePromises = [];
+  
+      // Loop through each item in the cart
+      for (const cartItem of cartItems) {
+        // Create a query to find the corresponding document in Firestore
+        const q = query(collection(firestore, 'Products'), where('id', '==', cartItem.id));
+        const querySnapshot = await getDocs(q);
+  
+        // Assuming there's only one document that matches the cartItem.id
+        const itemDocRef = querySnapshot.docs[0].ref;
+  
+        // Log the cart item ID to check its contents
+        console.log("CartItem ID:", cartItem.id);
+  
+        // Update the 'quantity' field by decreasing it by 1
+        const decrementQuantity = updateDoc(itemDocRef, {
+          quantity: increment(-1) // Decrease quantity by 1
+        });
+  
+        // Update the 'sold' field by increasing it by 1
+        const incrementSold = updateDoc(itemDocRef, {
+          sold: increment(1) // Increase sold by 1
+        });
+  
+        // Add both updates to the promises array
+        updatePromises.push(decrementQuantity, incrementSold);
+  
+        // Decrease the cart quantity for this item
+        decreaseCartQuantity(cartItem.id);
+      }
+  
+      // Wait for all updates to complete
+      await Promise.all(updatePromises);
+  
+      // Clear the cart by calling your function to remove items
+      // from the cart in your ShoppingCartContext
+      clearCart();
+    } catch (error: any) {
+      const firebaseError = error as FirebaseError;
+      console.error("Error during checkout:", firebaseError);
+      console.error("Error code:", firebaseError.code);
+      console.error("Error message:", firebaseError.message);
+    }
   };
+  
+  
+  
 
   return (
     <Offcanvas show={isOpen} onHide={closeCart} className={`shopping-cart-container ${isOpen ? 'open' : ''}`} placement="end" backdrop={true}>
@@ -123,3 +173,5 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
     </Offcanvas>
   );
 }
+
+
